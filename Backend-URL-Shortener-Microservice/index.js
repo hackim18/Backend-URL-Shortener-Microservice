@@ -22,7 +22,6 @@ const schema = new mongoose.Schema({
 const Url = mongoose.model("Url", schema);
 
 app.use("/public", express.static(__dirname + "/public/"));
-// app.use("/public", express.static(`${process.cwd()}/public`));
 
 app.get("/", function (req, res) {
   res.sendFile(__dirname + "/views/index.html");
@@ -30,9 +29,7 @@ app.get("/", function (req, res) {
 
 app.post("/api/shorturl", async (req, res) => {
   const bodyUrl = req.body.url;
-  // console.log("🚀 ~ app.post ~ bodyUrl:", bodyUrl);
   let urlRegex = new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&\/\/=]*)/);
-  // let urlRegex = new RegExp(/^https?:\/\/(www\.)?localhost(:\d{1,5})?(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?$/);
   if (!bodyUrl.match(urlRegex)) {
     return res.json({ error: "Invalid URL" });
   }
