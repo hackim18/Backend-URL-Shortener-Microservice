@@ -1,12 +1,13 @@
 require("dotenv").config();
 const express = require("express");
-const cors = require("cors");
 const app = express();
+const cors = require("cors");
 const mongoose = require("mongoose");
 const dns = require("dns");
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(cors({ optionsSuccessStatus: 200 }));
 
 try {
   mongoose.connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -20,13 +21,11 @@ const schema = new mongoose.Schema({
 });
 const Url = mongoose.model("Url", schema);
 
-const port = process.env.PORT || 3000;
-
-app.use(cors());
+app.use(express.static(__dirname + "/public/"));
 app.use("/public", express.static(`${process.cwd()}/public`));
 
 app.get("/", function (req, res) {
-  res.sendFile(process.cwd() + "/views/index.html");
+  res.sendFile(__dirname + "/views/index.html");
 });
 
 app.post("/api/shorturl", async (req, res) => {
