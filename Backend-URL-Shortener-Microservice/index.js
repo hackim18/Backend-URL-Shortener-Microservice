@@ -21,8 +21,8 @@ const schema = new mongoose.Schema({
 });
 const Url = mongoose.model("Url", schema);
 
-app.use(express.static(__dirname + "/public/"));
-app.use("/public", express.static(`${process.cwd()}/public`));
+app.use("/public", express.static(__dirname + "/public/"));
+// app.use("/public", express.static(`${process.cwd()}/public`));
 
 app.get("/", function (req, res) {
   res.sendFile(__dirname + "/views/index.html");
